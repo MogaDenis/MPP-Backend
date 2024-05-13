@@ -31,8 +31,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddDbContext<CarManagerContext>(options =>
-    options.UseInMemoryDatabase(Guid.NewGuid().ToString()), ServiceLifetime.Singleton);    
-    //options.UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection")), ServiceLifetime.Singleton);
 
 builder.Services.AddAutoMapper(typeof(CarMappingProfile));
 builder.Services.AddAutoMapper(typeof(OwnerMappingProfile));
