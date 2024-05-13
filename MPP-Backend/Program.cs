@@ -31,18 +31,27 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddDbContext<CarManagerContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection")));
+    options.UseInMemoryDatabase(Guid.NewGuid().ToString()), ServiceLifetime.Singleton);    
+    //options.UseSqlServer(builder.Configuration.GetConnectionString("defaultConnection")));
 
 builder.Services.AddAutoMapper(typeof(CarMappingProfile));
 builder.Services.AddAutoMapper(typeof(OwnerMappingProfile));
 
-builder.Services.AddScoped<ICarRepository, CarRepository>();
-builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<ICarRepository, CarRepository>();
+builder.Services.AddSingleton<IOwnerRepository, OwnerRepository>();
+builder.Services.AddSingleton<IUserRepository, UserRepository>();
 
-builder.Services.AddScoped<ICarService, CarService>();
-builder.Services.AddScoped<IOwnerService, OwnerService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddSingleton<ICarService, CarService>();
+builder.Services.AddSingleton<IOwnerService, OwnerService>();
+builder.Services.AddSingleton<IUserService, UserService>();
+
+//builder.Services.AddScoped<ICarRepository, CarRepository>();
+//builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
+//builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+//builder.Services.AddScoped<ICarService, CarService>();
+//builder.Services.AddScoped<IOwnerService, OwnerService>();
+//builder.Services.AddScoped<IUserService, UserService>();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
