@@ -29,8 +29,8 @@ namespace MPP_Backend.Data.Models
         [StringLength(50)]
         public int OwnerId { get; set; }
 
-        [ForeignKey("OwnerId")]
-        [InverseProperty("Cars")]
-        public virtual Owner Owner { get; set; } = null!;
+        //[ForeignKey("OwnerId")]
+        //[InverseProperty("Cars")]
+        //public virtual Owner Owner { get; set; } = null!;
     }
 }
