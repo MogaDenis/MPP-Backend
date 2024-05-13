@@ -14,7 +14,5 @@ namespace MPP_Backend.Business.Models
         [Required(ErrorMessage = "You must provide a last name.")]
         [MaxLength(50)]
         public string LastName { get; set; } = string.Empty;
-
-        public virtual ICollection<Car> Cars { get; set; } = [];
     }
 }
