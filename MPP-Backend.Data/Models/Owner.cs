@@ -16,8 +16,5 @@ namespace MPP_Backend.Data.Models
         [Required]
         [StringLength(50)]
         public string LastName { get; set; } = string.Empty;
-
-        [InverseProperty("Owner")]
-        public virtual ICollection<Car> Cars { get; set; } = [];
     }
 }
