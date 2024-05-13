@@ -43,14 +43,9 @@ namespace MPP_Backend.Business.Services
 
         public async Task<IEnumerable<CarModel>> GetCarsOfOwnerAsync(int ownerId)
         {
-            var owner = await _ownerService.GetOwnerWithCarsAsync(ownerId);
+            var allCars = await _carRepository.GetAllCarsAsync();
 
-            if (owner == null)
-            {
-                throw new Exception("The given owner does not exist!");
-            }
-
-            return _mapper.Map<IEnumerable<CarModel>>(owner.Cars);
+            return _mapper.Map<IEnumerable<CarModel>>(allCars.Where(car => car.OwnerId == ownerId));
         }
 
         public async Task<CarModel?> GetCarByIdAsync(int carId)

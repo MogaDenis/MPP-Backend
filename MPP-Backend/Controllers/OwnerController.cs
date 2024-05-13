@@ -53,25 +53,25 @@ namespace MPP_Backend.Controllers
             }
         }
 
-        [HttpGet("{ownerId}/allCars")]
-        public async Task<IActionResult> GetOwnerWithCars(int ownerId)
-        {
-            try
-            {
-                var owner = await _ownerService.GetOwnerWithCarsAsync(ownerId);
+        //[HttpGet("{ownerId}/allCars")]
+        //public async Task<IActionResult> GetOwnerWithCars(int ownerId)
+        //{
+        //    try
+        //    {
+        //        var owner = await _ownerService.GetOwnerWithCarsAsync(ownerId);
 
-                if (owner == null)
-                {
-                    return NotFound();
-                }
+        //        if (owner == null)
+        //        {
+        //            return NotFound();
+        //        }
 
-                return Ok(owner);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "Internal server error: " + ex.Message);
-            }
-        }
+        //        return Ok(owner);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, "Internal server error: " + ex.Message);
+        //    }
+        //}
 
         [HttpPost]
         public async Task<IActionResult> AddOwner([FromBody] OwnerModel ownerModel)

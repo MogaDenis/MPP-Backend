@@ -53,11 +53,11 @@ namespace MPP_Backend.Business.Services
             return _mapper.Map<OwnerModel>(owner);
         }
 
-        public async Task<OwnerModel?> GetOwnerWithCarsAsync(int ownerId)
-        {
-            var owner = await _ownerRepository.GetOwnerWithCarsAsync(ownerId);
+        //public async Task<OwnerModel?> GetOwnerWithCarsAsync(int ownerId)
+        //{
+        //    var owner = await _ownerRepository.GetOwnerWithCarsAsync(ownerId);
 
-            return _mapper.Map<OwnerModel>(owner);
-        }
+        //    return _mapper.Map<OwnerModel>(owner);
+        //}
     }
 }

@@ -8,7 +8,7 @@ namespace MPP_Backend.Data.Repositories.Interfaces
         Task<bool> UpdateOwnerAsync(int ownerId, Owner newOwnerData);
         Task<bool> DeleteOwnerAsync(int ownerId);
         Task<Owner?> GetOwnerByIdAsync(int ownerId);
-        Task<Owner?> GetOwnerWithCarsAsync(int ownerId);
+        //Task<Owner?> GetOwnerWithCarsAsync(int ownerId);
         Task<IEnumerable<Owner>> GetAllOwnersAsync();
     }
 }
