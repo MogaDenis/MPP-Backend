@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.Data;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity.Data;
+using MPP_Backend.Business.DTOs;
 using MPP_Backend.Business.Services.Interfaces;
 using MPP_Backend.Data.Models;
 using MPP_Backend.Data.Repositories.Interfaces;
@@ -8,21 +10,36 @@ namespace MPP_Backend.Business.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository) 
+        public UserService(IUserRepository userRepository, IMapper mapper) 
         {
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<bool> CreateUserAsync(RegisterRequest registerRequest)
+        public async Task<UserDTO?> AddUserAsync(UserForAddUpdateDTO user)
         {
-            User user = new()
+            int newUserId = await _userRepository.AddUserAsync(_mapper.Map<User>(user));
+            if (newUserId < 0)
             {
-                Email = registerRequest.Email,
-                Password = registerRequest.Password
-            };
+                return null;
+            }
 
-            return await _userRepository.CreateUserAsync(user);
+            var newUser = _mapper.Map<UserDTO>(user);
+            newUser.Id = newUserId;
+
+            return newUser;
+        }
+
+        public async Task<bool> DeleteUserAsync(int userId)
+        {
+            return await _userRepository.DeleteUserAsync(userId);
+        }
+
+        public async Task<bool> UpdateUserAsync(int userId, UserForAddUpdateDTO newUser)
+        {
+            return await _userRepository.UpdateUserAsync(userId, _mapper.Map<User>(newUser));
         }
 
         public async Task<bool> CheckUserLoginRequest(LoginRequest loginRequest)
@@ -34,6 +51,26 @@ namespace MPP_Backend.Business.Services
             };
 
             return await _userRepository.CheckUserLoginRequest(user);
+        }
+
+        public async Task<User?> GetUserById(int userId)
+        {
+            return await _userRepository.GetUserById(userId);
+        }
+
+        public async Task<User?> GetUserByEmail(string userEmail)
+        {
+            return await _userRepository.GetUserByEmail(userEmail);
+        }
+
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await _userRepository.GetAllUsers();
+        }
+
+        public async Task<IEnumerable<User>> FilterUsersByRole(UserRole userRole)
+        {
+            return await _userRepository.FilterUsersByRole(userRole);
         }
     }
 }

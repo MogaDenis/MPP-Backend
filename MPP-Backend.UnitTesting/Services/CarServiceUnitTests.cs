@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using MPP_Backend.Business.Mappings;
-using MPP_Backend.Business.Models;
+using MPP_Backend.Business.DTOs;
 using MPP_Backend.Business.Services;
 using MPP_Backend.Data.Models;
 using MPP_Backend.Data.Repositories;
@@ -31,14 +31,14 @@ namespace MPP_Backend.UnitTesting.Services
             var userRepository = new OwnerRepository(context);
             var ownerService = new OwnerService(userRepository, userMapper);
 
-            ownerService.AddOwnerAsync(new OwnerModel() { FirstName = "Test", LastName = "Test" }).Wait();
+            ownerService.AddOwnerAsync(new OwnerForAddUpdateDTO() { FirstName = "Test", LastName = "Test" }).Wait();
 
             return new CarService(carRepository, ownerService, carMapper);
         }
 
-        private static CarForAddUpdateModel CreateTestCarForAddUpdateModel()
+        private static CarForAddUpdateDTO CreateTestCarForAddUpdateModel()
         {
-            return new CarForAddUpdateModel()
+            return new CarForAddUpdateDTO()
             {
                 Make = "test make",
                 Model = "test model",
@@ -119,7 +119,7 @@ namespace MPP_Backend.UnitTesting.Services
             var testCar = CreateTestCarForAddUpdateModel();
             int id = carService.AddCarAsync(testCar).Result;
 
-            CarForAddUpdateModel replacementCar = new()
+            CarForAddUpdateDTO replacementCar = new()
             {
                 Make = "replacement make",
                 Model = "replacement model",
@@ -149,7 +149,7 @@ namespace MPP_Backend.UnitTesting.Services
             var testCar = CreateTestCarForAddUpdateModel();
             int id = carService.AddCarAsync(testCar).Result;
 
-            CarForAddUpdateModel replacementCar = new()
+            CarForAddUpdateDTO replacementCar = new()
             {
                 Make = "replacement make",
                 Model = "replacement model",

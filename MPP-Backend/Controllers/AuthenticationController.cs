@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using MPP_Backend.Business.DTOs;
 using MPP_Backend.Business.Services.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
@@ -45,11 +46,11 @@ namespace MPP_Backend.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
+        public async Task<IActionResult> Register([FromBody] UserForAddUpdateDTO user)
         {
-            bool registered = await _userService.CreateUserAsync(registerRequest);
+            var registeredUser = await _userService.AddUserAsync(user);
 
-            if (!registered) 
+            if (registeredUser == null) 
             {
                 return BadRequest();
             }

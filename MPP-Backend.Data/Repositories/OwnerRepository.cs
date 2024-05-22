@@ -58,11 +58,6 @@ namespace MPP_Backend.Data.Repositories
             return await _context.Owners.FirstOrDefaultAsync(x => x.Id == ownerId);
         }
 
-        //public async Task<Owner?> GetOwnerWithCarsAsync(int ownerId)
-        //{
-        //    return await _context.Owners.Include(owner => owner.Cars).FirstOrDefaultAsync(x => x.Id == ownerId);
-        //}
-
         public async Task<IEnumerable<Owner>> GetAllOwnersAsync()
         {
             return await _context.Owners.ToListAsync();

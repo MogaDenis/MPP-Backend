@@ -3,6 +3,7 @@ using MPP_Backend.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MPP_Backend.Data.Migrations
 {
     [DbContext(typeof(CarManagerContext))]
-    partial class CarManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20240522171653_AddedRoleToUser")]
+    partial class AddedRoleToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,12 +57,11 @@ namespace MPP_Backend.Data.Migrations
                         .HasColumnName("model");
 
                     b.Property<int>("OwnerId")
+                        .HasMaxLength(50)
                         .HasColumnType("int")
                         .HasColumnName("ownerId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
 
                     b.ToTable("Car");
                 });
@@ -115,17 +117,6 @@ namespace MPP_Backend.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("User");
-                });
-
-            modelBuilder.Entity("MPP_Backend.Data.Models.Car", b =>
-                {
-                    b.HasOne("MPP_Backend.Data.Models.Owner", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
                 });
 #pragma warning restore 612, 618
         }

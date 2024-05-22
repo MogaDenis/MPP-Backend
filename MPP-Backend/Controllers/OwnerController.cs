@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MPP_Backend.Business.Models;
+using MPP_Backend.Business.DTOs;
 using MPP_Backend.Business.Services.Interfaces;
 
 namespace MPP_Backend.Controllers
@@ -12,12 +12,10 @@ namespace MPP_Backend.Controllers
     public class OwnerController : Controller
     {
         private readonly IOwnerService _ownerService;
-        private readonly IMapper _mapper;
 
-        public OwnerController(IOwnerService ownerService, IMapper mapper) 
+        public OwnerController(IOwnerService ownerService) 
         {
             _ownerService = ownerService ?? throw new ArgumentNullException(nameof(ownerService));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpGet]
@@ -53,41 +51,18 @@ namespace MPP_Backend.Controllers
             }
         }
 
-        //[HttpGet("{ownerId}/allCars")]
-        //public async Task<IActionResult> GetOwnerWithCars(int ownerId)
-        //{
-        //    try
-        //    {
-        //        var owner = await _ownerService.GetOwnerWithCarsAsync(ownerId);
-
-        //        if (owner == null)
-        //        {
-        //            return NotFound();
-        //        }
-
-        //        return Ok(owner);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return StatusCode(500, "Internal server error: " + ex.Message);
-        //    }
-        //}
-
         [HttpPost]
-        public async Task<IActionResult> AddOwner([FromBody] OwnerModel ownerModel)
+        public async Task<IActionResult> AddOwner([FromBody] OwnerForAddUpdateDTO ownerModel)
         {
             try
             {
-                var id = await _ownerService.AddOwnerAsync(ownerModel);
-
-                var addedOwner = _mapper.Map<OwnerModel>(ownerModel);
-                addedOwner.Id = id;
+                var addedOwner = await _ownerService.AddOwnerAsync(ownerModel);
 
                 return CreatedAtRoute(
                     "GetOwner",
                     new
                     {
-                        ownerId = id
+                        ownerId = addedOwner.Id
                     },
                     addedOwner
                 );
@@ -119,7 +94,7 @@ namespace MPP_Backend.Controllers
         }
 
         [HttpPut("{ownerId}")]
-        public async Task<IActionResult> UpdateCar(int ownerId, [FromBody] OwnerForAddUpdateModel ownerModel)
+        public async Task<IActionResult> UpdateCar(int ownerId, [FromBody] OwnerForAddUpdateDTO ownerModel)
         {
             try
             {

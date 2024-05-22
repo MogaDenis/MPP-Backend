@@ -26,11 +26,9 @@ namespace MPP_Backend.Data.Models
         public string ImageUrl { get; set; } = null!;
 
         [Column("ownerId")]
-        [StringLength(50)]
         public int OwnerId { get; set; }
 
-        //[ForeignKey("OwnerId")]
-        //[InverseProperty("Cars")]
-        //public virtual Owner Owner { get; set; } = null!;
+        [ForeignKey("OwnerId")]
+        public Owner Owner { get; set; } = null!;
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MPP_Backend.Business.Mappings;
-using MPP_Backend.Business.Models;
+using MPP_Backend.Business.DTOs;
 using MPP_Backend.Business.Services;
 using MPP_Backend.Controllers;
 using MPP_Backend.Data.Models;
@@ -38,9 +38,9 @@ namespace MPP_Backend.UnitTesting.Controllers
             return new CarController(carService, carMapper);
         }
 
-        private static CarForAddUpdateModel CreateTestCarForAddUpdateModel()
+        private static CarForAddUpdateDTO CreateTestCarForAddUpdateModel()
         {
-            return new CarForAddUpdateModel()
+            return new CarForAddUpdateDTO()
             {
                 Make = "test make",
                 Model = "test model",
@@ -65,7 +65,7 @@ namespace MPP_Backend.UnitTesting.Controllers
 
             var result = carController.GetCar(id).Result;
             var okResult = (OkObjectResult)result;
-            var resultCar = (CarModel?)okResult.Value;
+            var resultCar = (CarDTO?)okResult.Value;
 
             // Assert
             Assert.IsInstanceOfType(addResult, typeof(CreatedAtRouteResult));
@@ -116,7 +116,7 @@ namespace MPP_Backend.UnitTesting.Controllers
 
             var result = carController.GetCar(id).Result;
             var okResult = (OkObjectResult)result;
-            var resultCar = (CarModel?)okResult.Value;
+            var resultCar = (CarDTO?)okResult.Value;
 
             // Assert
             Assert.IsInstanceOfType(deleteResult, typeof(NotFoundResult));
@@ -139,7 +139,7 @@ namespace MPP_Backend.UnitTesting.Controllers
             var createdAtRouteResult = (CreatedAtRouteResult)actionResult;
             int id = Convert.ToInt32(createdAtRouteResult.RouteValues?["carId"]);
 
-            CarForAddUpdateModel replacementCar = new()
+            CarForAddUpdateDTO replacementCar = new()
             {
                 Make = "replacement make",
                 Model = "replacement model",
@@ -152,7 +152,7 @@ namespace MPP_Backend.UnitTesting.Controllers
 
             var result = carController.GetCar(id).Result;
             var okResult = (OkObjectResult)result;
-            var resultCar = (CarModel?)okResult.Value;
+            var resultCar = (CarDTO?)okResult.Value;
 
             // Assert
             Assert.IsInstanceOfType(updateResult, typeof(NoContentResult));
@@ -175,7 +175,7 @@ namespace MPP_Backend.UnitTesting.Controllers
             var createdAtRouteResult = (CreatedAtRouteResult)actionResult;
             int id = Convert.ToInt32(createdAtRouteResult.RouteValues?["carId"]);
 
-            CarForAddUpdateModel replacementCar = new()
+            CarForAddUpdateDTO replacementCar = new()
             {
                 Make = "replacement make",
                 Model = "replacement model",
@@ -188,7 +188,7 @@ namespace MPP_Backend.UnitTesting.Controllers
 
             var result = carController.GetCar(id).Result;
             var okResult = (OkObjectResult)result;
-            var resultCar = (CarModel?)okResult.Value;
+            var resultCar = (CarDTO?)okResult.Value;
 
             // Assert
             Assert.IsInstanceOfType(updateResult, typeof(NotFoundResult));
@@ -214,7 +214,7 @@ namespace MPP_Backend.UnitTesting.Controllers
             // Act
             var result = carController.GetCar(id).Result;
             var okResult = (OkObjectResult)result;
-            var resultCar = (CarModel?)okResult.Value;
+            var resultCar = (CarDTO?)okResult.Value;
 
             // Assert
             Assert.IsNotNull(resultCar);
@@ -266,7 +266,7 @@ namespace MPP_Backend.UnitTesting.Controllers
             var result = carController.GetAllCars().Result;
 
             var okResult = (OkObjectResult)result;
-            var cars = ((IEnumerable<CarModel>?)okResult.Value)?.ToList();
+            var cars = ((IEnumerable<CarDTO>?)okResult.Value)?.ToList();
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));

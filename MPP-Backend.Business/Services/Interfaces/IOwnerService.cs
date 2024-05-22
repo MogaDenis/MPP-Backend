@@ -1,14 +1,13 @@
-﻿using MPP_Backend.Business.Models;
+﻿using MPP_Backend.Business.DTOs;
 
 namespace MPP_Backend.Business.Services.Interfaces
 {
     public interface IOwnerService
     {
-        Task<int> AddOwnerAsync(OwnerModel owner);
-        Task<bool> UpdateOwnerAsync(int ownerId, OwnerForAddUpdateModel newOwnerData);
+        Task<OwnerDTO> AddOwnerAsync(OwnerForAddUpdateDTO owner);
+        Task<bool> UpdateOwnerAsync(int ownerId, OwnerForAddUpdateDTO newOwnerData);
         Task<bool> DeleteOwnerAsync(int ownerId);
-        Task<OwnerModel?> GetOwnerByIdAsync(int ownerId);
-        //Task<OwnerModel?> GetOwnerWithCarsAsync(int ownerId);   
-        Task<IEnumerable<OwnerModel>> GetAllOwnersAsync();
+        Task<OwnerDTO?> GetOwnerByIdAsync(int ownerId);
+        Task<IEnumerable<OwnerDTO>> GetAllOwnersAsync();
     }
 }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MPP_Backend.Business.Models;
+using MPP_Backend.Business.DTOs;
 using MPP_Backend.Data.Models;
 
 namespace MPP_Backend.Business.Mappings
@@ -8,9 +8,9 @@ namespace MPP_Backend.Business.Mappings
     {
         public CarMappingProfile() 
         {
-            CreateMap<Car, CarModel>().ReverseMap();
-            CreateMap<CarForAddUpdateModel, CarModel>().ReverseMap();
-            CreateMap<CarForAddUpdateModel, Car>().ReverseMap();
+            CreateMap<Car, CarDTO>().ReverseMap();
+            CreateMap<CarForAddUpdateDTO, CarDTO>().ReverseMap();
+            CreateMap<CarForAddUpdateDTO, Car>().ReverseMap();
         }
     }
 }

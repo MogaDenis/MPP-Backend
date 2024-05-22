@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using MPP_Backend.Business.Models;
+using MPP_Backend.Business.DTOs;
 using MPP_Backend.Business.Services.Interfaces;
 using MPP_Backend.Data.Models;
 using MPP_Backend.Data.Repositories.Interfaces;
@@ -17,9 +17,14 @@ namespace MPP_Backend.Business.Services
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<int> AddOwnerAsync(OwnerModel owner)
+        public async Task<OwnerDTO> AddOwnerAsync(OwnerForAddUpdateDTO owner)
         {
-            return await _ownerRepository.AddOwnerAsync(_mapper.Map<Owner>(owner));
+            int newOwnerId = await _ownerRepository.AddOwnerAsync(_mapper.Map<Owner>(owner));
+
+            var newOwner = _mapper.Map<OwnerDTO>(owner);
+            newOwner.Id = newOwnerId;
+
+            return newOwner;
         }
 
         public async Task<bool> DeleteOwnerAsync(int ownerId)
@@ -27,37 +32,30 @@ namespace MPP_Backend.Business.Services
             return await _ownerRepository.DeleteOwnerAsync(ownerId);
         }
 
-        public async Task<bool> UpdateOwnerAsync(int ownerId, OwnerForAddUpdateModel newOwnerData)
+        public async Task<bool> UpdateOwnerAsync(int ownerId, OwnerForAddUpdateDTO newOwnerData)
         {
             return await _ownerRepository.UpdateOwnerAsync(ownerId, _mapper.Map<Owner>(newOwnerData));
         }
 
-        public async Task<IEnumerable<OwnerModel>> GetAllOwnersAsync()
+        public async Task<IEnumerable<OwnerDTO>> GetAllOwnersAsync()
         {
             var owners = await _ownerRepository.GetAllOwnersAsync();
 
-            return _mapper.Map<IEnumerable<OwnerModel>>(owners);    
+            return _mapper.Map<IEnumerable<OwnerDTO>>(owners);    
         }
 
-        public async Task<IEnumerable<OwnerModel>> GetAllOwners()
+        public async Task<IEnumerable<OwnerDTO>> GetAllOwners()
         {
             var owners = await _ownerRepository.GetAllOwnersAsync();
 
-            return _mapper.Map<IEnumerable<OwnerModel>>(owners);
+            return _mapper.Map<IEnumerable<OwnerDTO>>(owners);
         }
 
-        public async Task<OwnerModel?> GetOwnerByIdAsync(int ownerId)
+        public async Task<OwnerDTO?> GetOwnerByIdAsync(int ownerId)
         {
             var owner = await _ownerRepository.GetOwnerByIdAsync(ownerId);
 
-            return _mapper.Map<OwnerModel>(owner);
+            return _mapper.Map<OwnerDTO>(owner);
         }
-
-        //public async Task<OwnerModel?> GetOwnerWithCarsAsync(int ownerId)
-        //{
-        //    var owner = await _ownerRepository.GetOwnerWithCarsAsync(ownerId);
-
-        //    return _mapper.Map<OwnerModel>(owner);
-        //}
     }
 }

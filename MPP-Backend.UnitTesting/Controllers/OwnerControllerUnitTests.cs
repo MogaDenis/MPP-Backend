@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MPP_Backend.Business.Mappings;
-using MPP_Backend.Business.Models;
+using MPP_Backend.Business.DTOs;
 using MPP_Backend.Business.Services;
 using MPP_Backend.Controllers;
 using MPP_Backend.Data.Models;
@@ -30,15 +30,14 @@ namespace MPP_Backend.UnitTesting.Controllers
             var mapper = new Mapper(configuration);
             var ownerService = new OwnerService(ownerRepository, mapper);
 
-            return new OwnerController(ownerService, mapper);
+            return new OwnerController(ownerService);
         }
 
-        private static OwnerModel CreateTestUserModel()
+        private static OwnerForAddUpdateDTO CreateTestUserModel()
         {
-            return new OwnerModel()
+            return new OwnerForAddUpdateDTO()
             {
-                FirstName = "test",
-                LastName = "test"
+
             };
         }
 

@@ -1,9 +1,8 @@
-﻿using MPP_Backend.Data.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace MPP_Backend.Business.Models
+namespace MPP_Backend.Business.DTOs
 {
-    public class OwnerModel
+    public class OwnerForAddUpdateDTO
     {
         public int Id { get; set; }
 

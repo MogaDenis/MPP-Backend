@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using MPP_Backend.Business.Mappings;
-using MPP_Backend.Business.Models;
+using MPP_Backend.Business.DTOs;
 using MPP_Backend.Business.Services;
 using MPP_Backend.Data.Models;
 using MPP_Backend.Data.Repositories;
@@ -30,9 +30,9 @@ namespace MPP_Backend.UnitTesting.Services
             return new OwnerService(ownerRepository, mapper);
         }
 
-        private static OwnerModel CreateTestOwnerModel()
+        private static OwnerForAddUpdateDTO CreateTestOwnerModel()
         {
-            return new OwnerModel()
+            return new OwnerForAddUpdateDTO()
             {
                 FirstName = "test",
                 LastName = "test"
@@ -49,10 +49,10 @@ namespace MPP_Backend.UnitTesting.Services
             var testOwnerModel = CreateTestOwnerModel();
 
             // Act
-            int id = await ownerService.AddOwnerAsync(testOwnerModel);
+            var addedOwner = await ownerService.AddOwnerAsync(testOwnerModel);
 
             // Assert
-            Assert.AreEqual(1, id);
+            Assert.IsNotNull(addedOwner);
             Assert.AreEqual(1, context.Owners.ToList().Count);
         }
     }

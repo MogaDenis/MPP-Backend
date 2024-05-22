@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MPP_Backend.Business.Models
+namespace MPP_Backend.Business.DTOs
 {
-    public class CarForAddUpdateModel
+    public class CarDTO
     {
+        public int Id { get; set; }
+
         [Required(ErrorMessage = "You must provide a make for a car.")]
         [MaxLength(50)]
         public string Make { get; set; } = string.Empty;

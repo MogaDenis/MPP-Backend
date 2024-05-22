@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MPP_Backend.Business.Models;
+using MPP_Backend.Business.DTOs;
 using MPP_Backend.Business.Services.Interfaces;
 
 namespace MPP_Backend.Controllers
@@ -60,13 +60,13 @@ namespace MPP_Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCar([FromBody] CarForAddUpdateModel carModel)
+        public async Task<IActionResult> AddCar([FromBody] CarForAddUpdateDTO carModel)
         {
             try
             {
                 var id = await _carService.AddCarAsync(carModel);
 
-                var addedCar = _mapper.Map<CarModel>(carModel);
+                var addedCar = _mapper.Map<CarDTO>(carModel);
                 addedCar.Id = id;
 
                 return CreatedAtRoute(
@@ -106,7 +106,7 @@ namespace MPP_Backend.Controllers
         }
 
         [HttpPut("{carId}")]
-        public async Task<IActionResult> UpdateCar(int carId, [FromBody] CarForAddUpdateModel carModel)
+        public async Task<IActionResult> UpdateCar(int carId, [FromBody] CarForAddUpdateDTO carModel)
         {
             try
             {
