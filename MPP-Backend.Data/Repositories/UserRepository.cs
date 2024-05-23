@@ -76,7 +76,6 @@ namespace MPP_Backend.Data.Repositories
         public async Task<bool> CheckUserLoginRequest(User user)
         {
             var userFromDatabase = await _context.Users.FirstOrDefaultAsync(currentUser => currentUser.Email == user.Email);
-
             if (userFromDatabase == null) 
             {
                 return false;
