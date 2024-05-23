@@ -1,4 +1,5 @@
 ﻿using MPP_Backend.Business.DTOs;
+using MPP_Backend.Data.Models;
 
 namespace MPP_Backend.Business.Services.Interfaces
 {
@@ -9,5 +10,6 @@ namespace MPP_Backend.Business.Services.Interfaces
         Task<bool> DeleteOwnerAsync(int ownerId);
         Task<OwnerDTO?> GetOwnerByIdAsync(int ownerId);
         Task<IEnumerable<OwnerDTO>> GetAllOwnersAsync();
+        Task<IEnumerable<CarDTO>> GetCarsOfOwnerAsync(int ownerId);
     }
 }

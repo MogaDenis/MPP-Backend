@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MPP_Backend.Business.DTOs;
 using MPP_Backend.Business.Services.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace MPP_Backend.Controllers
 {
@@ -23,22 +24,42 @@ namespace MPP_Backend.Controllers
         [HttpGet("singleCar/{carId}", Name = "GetCar")]
         public async Task<IActionResult> GetCar(int carId)
         {
-            var car = await _carService.GetCarByIdAsync(carId);
-
-            if (car == null)
+            try
             {
-                return NotFound();
-            }
+                var car = await _carService.GetCarByIdAsync(carId);
+                if (car == null)
+                {
+                    return NotFound();
+                }
 
-            return Ok(car);
+                return Ok(car);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error: " + ex.Message);
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllCars()
         {
-            var cars = await _carService.GetAllCarsAsync();
-
-            return Ok(cars);
+            try
+            {
+                var cars = await _carService.GetAllCarsAsync();
+                return Ok(cars);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error: " + ex.Message);
+            }
         }
 
         [HttpGet("{ownerId}")]
@@ -49,13 +70,13 @@ namespace MPP_Backend.Controllers
                 var ownerCars = await _carService.GetCarsOfOwnerAsync(ownerId);
                 return Ok(ownerCars);
             }
-            catch(ArgumentException ex)
+            catch(ValidationException ex)
             {
                 return BadRequest(ex.Message);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, "Internal Server Error.");
+                return StatusCode(500, "Internal Server Error: " + ex.Message);
             }
         }
 
@@ -79,9 +100,13 @@ namespace MPP_Backend.Controllers
                     addedCar
                 );
             }
-            catch (Exception) 
+            catch (ValidationException ex)
             {
-                return StatusCode(500, "Internal Server Error.");
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error: " + ex.Message);
             }
         }
 
@@ -99,9 +124,13 @@ namespace MPP_Backend.Controllers
 
                 return NoContent();
             }
-            catch (Exception)
+            catch(ValidationException ex)
             {
-                return StatusCode(500, "Internal Server Error.");
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error: " + ex.Message);
             }
         }
 
@@ -119,9 +148,13 @@ namespace MPP_Backend.Controllers
 
                 return NoContent();
             }
-            catch (Exception)
+            catch (ValidationException ex)
             {
-                return StatusCode(500, "Internal Server Error.");
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error: " + ex.Message);
             }
         }
     }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MPP_Backend.Business.DTOs;
 using MPP_Backend.Business.Services.Interfaces;
 using MPP_Backend.Data.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace MPP_Backend.Controllers
 {
@@ -24,8 +25,11 @@ namespace MPP_Backend.Controllers
             try
             {
                 var users = await _userService.GetAllUsers();
-
                 return Ok(users);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -46,6 +50,10 @@ namespace MPP_Backend.Controllers
 
                 return Ok(user);
             }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, "Internal Server Error: " + ex.Message);
@@ -65,6 +73,10 @@ namespace MPP_Backend.Controllers
 
                 return Ok(user);
             }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, "Internal Server Error: " + ex.Message);
@@ -77,8 +89,11 @@ namespace MPP_Backend.Controllers
             try
             {
                 var users = await _userService.FilterUsersByRole(userRole);
-
                 return Ok(users);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -92,19 +107,19 @@ namespace MPP_Backend.Controllers
             try
             {
                 var addedUser = await _userService.AddUserAsync(user);
-                if (addedUser == null)
-                {
-                    return BadRequest();
-                }
 
                 return CreatedAtRoute(
                     "GetUser",
                     new
                     {
-                        userId = addedUser.Id
+                        userId = addedUser?.Id
                     },
                     addedUser
                 );
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -118,13 +133,16 @@ namespace MPP_Backend.Controllers
             try
             {
                 bool deleted = await _userService.DeleteUserAsync(userId);
-
                 if (!deleted)
                 {
                     return NotFound();
                 }
 
                 return NoContent();
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -138,13 +156,16 @@ namespace MPP_Backend.Controllers
             try
             {
                 bool updated = await _userService.UpdateUserAsync(userId, newUser);
-
                 if (!updated)
                 {
                     return NotFound();
                 }
 
                 return NoContent();
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

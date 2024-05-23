@@ -57,5 +57,12 @@ namespace MPP_Backend.Business.Services
 
             return _mapper.Map<OwnerDTO>(owner);
         }
+
+        public async Task<IEnumerable<CarDTO>> GetCarsOfOwnerAsync(int ownerId)
+        {
+            var cars = await _ownerRepository.GetCarsOfOwnerAsync(ownerId);
+
+            return _mapper.Map<IEnumerable<CarDTO>>(cars);
+        }
     }
 }

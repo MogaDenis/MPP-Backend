@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MPP_Backend.Business.DTOs;
 using MPP_Backend.Business.Services.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace MPP_Backend.Controllers
 {
@@ -23,7 +24,12 @@ namespace MPP_Backend.Controllers
         {
             try
             {
-                return Ok(await _ownerService.GetAllOwnersAsync());
+                var owners = await _ownerService.GetAllOwnersAsync();
+                return Ok(owners);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -37,13 +43,16 @@ namespace MPP_Backend.Controllers
             try
             {
                 var owner = await _ownerService.GetOwnerByIdAsync(ownerId);
-
                 if (owner == null)
                 {
                     return NotFound();
                 }
 
                 return Ok(owner);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -67,6 +76,10 @@ namespace MPP_Backend.Controllers
                     addedOwner
                 );
             }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, "Internal server error: " + ex.Message);
@@ -79,13 +92,16 @@ namespace MPP_Backend.Controllers
             try
             {
                 bool deleted = await _ownerService.DeleteOwnerAsync(ownerId);
-
                 if (!deleted)
                 {
                     return NotFound();
                 }
 
                 return NoContent();
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -99,13 +115,16 @@ namespace MPP_Backend.Controllers
             try
             {
                 bool updated = await _ownerService.UpdateOwnerAsync(ownerId, ownerModel);
-
                 if (!updated)
                 {
                     return NotFound();
                 }
 
                 return NoContent();
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

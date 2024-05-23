@@ -4,6 +4,7 @@ using MPP_Backend.Business.DTOs;
 using MPP_Backend.Business.Services.Interfaces;
 using MPP_Backend.Data.Models;
 using MPP_Backend.Data.Repositories.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace MPP_Backend.Business.Services
 {
@@ -23,7 +24,7 @@ namespace MPP_Backend.Business.Services
             int newUserId = await _userRepository.AddUserAsync(_mapper.Map<User>(user));
             if (newUserId < 0)
             {
-                return null;
+                throw new ValidationException("There already exists an user with the given email.");
             }
 
             var newUser = _mapper.Map<UserDTO>(user);
@@ -34,11 +35,21 @@ namespace MPP_Backend.Business.Services
 
         public async Task<bool> DeleteUserAsync(int userId)
         {
+            if (userId < 0) 
+            {
+                throw new ValidationException("Invalid user id.");
+            }
+
             return await _userRepository.DeleteUserAsync(userId);
         }
 
         public async Task<bool> UpdateUserAsync(int userId, UserForAddUpdateDTO newUser)
         {
+            if (userId < 0)
+            {
+                throw new ValidationException("Invalid user id.");
+            }
+
             return await _userRepository.UpdateUserAsync(userId, _mapper.Map<User>(newUser));
         }
 
@@ -55,6 +66,11 @@ namespace MPP_Backend.Business.Services
 
         public async Task<User?> GetUserById(int userId)
         {
+            if (userId < 0)
+            {
+                throw new ValidationException("Invalid user id.");
+            }
+
             return await _userRepository.GetUserById(userId);
         }
 

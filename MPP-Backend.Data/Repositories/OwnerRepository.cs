@@ -62,5 +62,10 @@ namespace MPP_Backend.Data.Repositories
         {
             return await _context.Owners.ToListAsync();
         }
+
+        public async Task<IEnumerable<Car>> GetCarsOfOwnerAsync(int ownerId)
+        {
+            return await _context.Cars.Where(car => car.OwnerId == ownerId).ToListAsync();
+        }
     }
 }

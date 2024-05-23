@@ -9,5 +9,6 @@ namespace MPP_Backend.Data.Repositories.Interfaces
         Task<bool> DeleteOwnerAsync(int ownerId);
         Task<Owner?> GetOwnerByIdAsync(int ownerId);
         Task<IEnumerable<Owner>> GetAllOwnersAsync();
+        Task<IEnumerable<Car>> GetCarsOfOwnerAsync(int ownerId);
     }
 }
