@@ -69,6 +69,7 @@ namespace MPP_Backend.Data.Repositories
             newUser.Password = hashedPassword;
 
             _context.Users.Entry(userToUpdate).CurrentValues.SetValues(newUser);
+            await _context.SaveChangesAsync();
 
             return true;
         }
